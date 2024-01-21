@@ -2,25 +2,34 @@ import { useState, useEffect } from "react";
 
 //redux
 import { useSelector, useDispatch } from "react-redux";
+import { updateTodo } from "../actions/todoActions";
+
+//const
+import API_CONST from "../constants/apiConstants";
 
 function EditModal() {
   const dispatch = useDispatch();
   const [content, setContent] = useState("");
   const _id = useSelector((state: any) => state.editModal._id);
-
-  const fetchTodo = async () => {
-    const editedContent = useSelector(
-      (state: any) =>
-        state.todo.todos.find((todo: any) => todo._id === _id).content
-    );
-    setContent(editedContent);
-  };
+  const editedContent = useSelector(
+    (state: any) =>
+      state.todo.todos.find((todo: any) => todo._id === _id).content
+  );
 
   useEffect(() => {
-    fetchTodo();
+    setContent(editedContent);
   }, []);
 
   const handleEdit = async () => {
+    const updatedTodo = await fetch(API_CONST + "/" + _id, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ content }),
+    });
+    const data = await updatedTodo.json();
+    dispatch(updateTodo(data));
     dispatch({ type: "CLOSE_EDIT_MODAL" });
   };
 

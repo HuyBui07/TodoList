@@ -46,4 +46,28 @@ const deleteTodo = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export { getTodos, addTodo, deleteTodo };
+const updateTodo = async (req: Request, res: Response): Promise<void> => {
+  const _id = req.params._id;
+  const { content } = req.body;
+  let missing = false;
+  if (!content) {
+    missing = true;
+  }
+  if (missing) {
+    res.status(400).json({ message: "Missing content" });
+    return;
+  }
+
+  try {
+    const todo = await Todo.findByIdAndUpdate(
+      _id,
+      { content },
+      { new: true }
+    );
+    res.status(200).json(todo);
+  } catch (err: any) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
+export { getTodos, addTodo, deleteTodo, updateTodo };

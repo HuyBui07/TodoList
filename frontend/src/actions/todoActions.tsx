@@ -21,4 +21,11 @@ const deleteTodo = (_id: String) => {
   };
 }
 
-export { setTodos, addTodo, deleteTodo };
+const updateTodo = (todo: Todo) => {
+  return {
+    type: "UPDATE_TODO",
+    payload: todo,
+  };
+}
+
+export { setTodos, addTodo, deleteTodo, updateTodo };
