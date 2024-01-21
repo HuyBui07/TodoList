@@ -28,7 +28,7 @@ function TodoForm({ className }: { className: string }) {
         className
       }
     >
-      <form>
+      <form onSubmit={handleAddTodo}>
         <label className="block mb-4 text-xl">Content</label>
         <input
           type="text"
