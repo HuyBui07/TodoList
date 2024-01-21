@@ -1,3 +1,6 @@
+## Description
+A learning project using MERN stack with additions of Redux, Typescript and Tailwind.
+
 ## Setup
 
 1. Clone the repository.
