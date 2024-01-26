@@ -21,7 +21,7 @@ function EditModal() {
   }, []);
 
   const handleEdit = async () => {
-    const updatedTodo = await fetch(API_CONST + "/" + _id, {
+    const updatedTodo = await fetch(API_CONST + "/todos/" + _id, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

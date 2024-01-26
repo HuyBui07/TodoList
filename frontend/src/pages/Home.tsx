@@ -23,7 +23,7 @@ function Home() {
   const todos: Todo[] = useSelector((state: any) => state.todo.todos) || [];
 
   const fetchTodos = async () => {
-    const res = await fetch(API_CONST);
+    const res = await fetch(API_CONST + "/todos");
     const data = await res.json();
     dispatch(setTodos(data));
   };

@@ -10,7 +10,7 @@ function TodoForm({ className }: { className: string }) {
   const [content, setContent] = useState("");
 
   const handleAddTodo = async () => {
-    const res = await fetch(API_CONST, {
+    const res = await fetch(API_CONST + "/todos", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -28,21 +28,14 @@ function TodoForm({ className }: { className: string }) {
         className
       }
     >
-      <form onSubmit={handleAddTodo}>
-        <label className="block mb-4 text-xl">Content</label>
-        <input
-          type="text"
-          className="mb-4"
-          onChange={(e) => setContent(e.target.value)}
-        />
-      </form>
-      <button
-        type="submit"
-        onClick={handleAddTodo}
-        className="bg-pastel-green w-[30%] h-10 text-white rounded-[10px] font-bold"
-      >
-        Add Todo
-      </button>
+      <label className="block mb-4 text-xl">Content</label>
+      <input
+        type="text"
+        className="mb-4"
+        onChange={(e) => setContent(e.target.value)}
+      />
+
+      <button onClick={handleAddTodo}>Add Todo</button>
     </div>
   );
 }

@@ -3,8 +3,10 @@ dotenv.config();
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
+
+//routers
 import todosRouter from "./routes/todoRouter";
-import { todo } from "node:test";
+import userRouter from "./routes/userRouter";
 
 const app = express();
 const port = 4000;
@@ -18,6 +20,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/todos", todosRouter);
+app.use("/api/users", userRouter);
 
 mongoose
   .connect(process.env.MONGO_URL as string)

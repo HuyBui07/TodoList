@@ -17,7 +17,7 @@ function TodoTile({ todo }: { todo: Todo }) {
 
   const handleDelete = async () => {
     console.log(todo._id);
-    const res = await fetch(API_CONST + "/" + todo._id, {
+    const res = await fetch(API_CONST + "/todos/" + todo._id, {
       method: "DELETE",
     });
     const data = await res.json();
@@ -33,7 +33,7 @@ function TodoTile({ todo }: { todo: Todo }) {
       <h2>{todo.content}</h2>
       <div className="flex items-center gap-10">
         <button
-          className="border-2 rounded-xl pt-2 pb-2 pl-4 pr-4 hover:bg-pastel-green hover:text-white font-bold"
+          className="w-20"
           onClick={handleEdit}
         >
           Edit

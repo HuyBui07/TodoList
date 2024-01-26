@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import mongoose from "mongoose";
 import Todo from "../models/todoModel";
 
 //get all todos
