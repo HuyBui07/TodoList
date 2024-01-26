@@ -1,4 +1,4 @@
 export type User = {
+  _id: String;
   email: String;
-  token: String;
 };

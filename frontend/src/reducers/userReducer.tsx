@@ -1,11 +1,15 @@
 import { User } from "../models/User";
 
+interface UserState {
+  user: User | null;
+}
+
 interface UserAction {
   type: string;
   payload: User | null;
 }
 
-const initalState = {
+const initalState: UserState = {
   user: null,
 };
 

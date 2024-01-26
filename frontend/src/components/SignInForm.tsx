@@ -1,40 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-//const
-import API_CONST from "../constants/apiConstants";
+//custom hooks
+import { useSignin } from "../hooks/useSignin";
 
 function SignInForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const { signin, error, loading } = useSignin();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleSignUp = async () => {
-    try {
-      const res = await fetch(API_CONST + "/users/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.message);
-      }
-
-      console.log(data);
-      dispatch({ type: "SET_USER", payload: data });
-      navigate("/home");
-    } catch (error) {
-      alert(error);
-    }
+    setIsSubmitted(true);
+    await signin(email, password);
   };
+
+  useEffect(() => {
+    if (isSubmitted && !loading && !error) {
+      navigate("/home");
+    }
+  }, [isSubmitted, loading, error, navigate]);
 
   return (
     <div className="w-1/3 h-auto border-2 border-gray-300 rounded-2xl p-8 flex flex-col justify-center">
@@ -54,9 +44,10 @@ function SignInForm() {
         onChange={(e) => setPassword(e.target.value)}
       />
 
-      <button onClick={handleSignUp} className="mb-8">
+      <button onClick={handleSignUp} className="mb-8" disabled={loading}>
         Sign In
       </button>
+      {error && <p className="text-red-500 mb-4">{error}</p>}
       <span className="m-auto">
         Don't have an accout?{" "}
         <span

@@ -2,43 +2,22 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-//const
-import API_CONST from "../constants/apiConstants";
+//custom hooks
+import { useSignup } from "../hooks/useSignup";
 
 function SignUpForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const { signup, error, loading } = useSignup();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleSignUp = async () => {
-    try {
-      if (password !== confirmPassword) {
-        throw new Error("Passwords do not match");
-      }
+    await signup(email, password, confirmPassword);
 
-      const res = await fetch(API_CONST + "/users/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.message);
-      }
-
-      console.log(data);
-      dispatch({ type: "SET_USER", payload: data });
-      navigate("/home");
-    } catch (error) {
-      alert(error);
-    }
   };
 
   return (
@@ -65,10 +44,17 @@ function SignUpForm() {
         value={confirmPassword}
         onChange={(e) => setConfirmPassword(e.target.value)}
       />
-      <button onClick={handleSignUp} className="mb-8">Sign Up</button>
+      <button onClick={handleSignUp} className="mb-8" disabled={loading}>
+        Sign Up
+      </button>
+      {error && <p className="text-red-500 mb-4">{error}</p>}
       <span className="m-auto">
-        Already have an accout? <span className="text-pastel-green hover:cursor-pointer hover:opacity-50 " onClick={() => navigate("/signin")}>
-            Click here
+        Already have an accout?{" "}
+        <span
+          className="text-pastel-green hover:cursor-pointer hover:opacity-50 "
+          onClick={() => navigate("/signin")}
+        >
+          Click here
         </span>
       </span>
     </div>

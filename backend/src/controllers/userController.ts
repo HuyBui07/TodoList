@@ -16,7 +16,13 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
 
     const token = createToken(user._id);
 
-    res.status(200).json({ email, token });
+    res.status(200).json({
+      user: {
+        _id: user._id,
+        email: user.email,
+      },
+      token,
+    });
   } catch (err: any) {
     res.status(400).json({ message: err.message });
   }
@@ -30,7 +36,13 @@ const registerUser = async (req: Request, res: Response): Promise<void> => {
 
     const token = createToken(user._id);
 
-    res.status(200).json({ email, token });
+    res.status(200).json({
+      user: {
+        _id: user._id,
+        email: user.email,
+      },
+      token,
+    });
   } catch (err: any) {
     res.status(400).json({ message: err.message });
   }
