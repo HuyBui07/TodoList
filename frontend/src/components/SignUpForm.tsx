@@ -22,7 +22,7 @@ function SignUpForm() {
   return (
     <div className="w-1/3 h-auto border-2 border-gray-300 rounded-2xl p-8 flex flex-col justify-center">
       <h2 className="mb-4">Sign Up</h2>
-      <form onSubmit={handleSignUp}>
+      <form>
         <label className="mb-4">Username</label>
         <input
           type="text"
@@ -44,7 +44,7 @@ function SignUpForm() {
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
-        <button type="submit" className="mb-8" disabled={loading}>
+        <button className="mb-8" disabled={loading} onClick={handleSignUp}>
           Sign Up
         </button>
       </form>

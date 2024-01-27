@@ -38,11 +38,7 @@ function TodoTile({ todo }: { todo: Todo }) {
         >
           Edit
         </button>
-        <input
-          type="checkbox"
-          className="form-checkbox h-5 w-5"
-          onClick={handleDelete}
-        />
+        <button className="w-20 bg-red-500" onClick={handleDelete}>Delete</button>
       </div>
     </div>
   );

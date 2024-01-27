@@ -28,12 +28,14 @@ function TodoForm({ className }: { className: string }) {
         className
       }
     >
-      <label className="block mb-4 text-xl">Content</label>
-      <input
-        type="text"
-        className="mb-4"
-        onChange={(e) => setContent(e.target.value)}
-      />
+      <form>
+        <label className="block mb-4 text-xl">Content</label>
+        <input
+          type="text"
+          className="mb-4"
+          onChange={(e) => setContent(e.target.value)}
+        />
+      </form>
 
       <button onClick={handleAddTodo}>Add Todo</button>
     </div>
