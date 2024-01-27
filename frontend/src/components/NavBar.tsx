@@ -4,11 +4,15 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 
+//custom hooks
+import { useLogout } from "../hooks/useLogout";
+
 function NavBar() {
   const navigate = useNavigate();
+  const { logout } = useLogout();
 
   const handleSignout = () => {
-    navigate("/signin");
+    logout();
   };
 
   return (
