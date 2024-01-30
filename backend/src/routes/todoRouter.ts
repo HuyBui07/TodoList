@@ -1,7 +1,10 @@
 import express from 'express';
 import { getTodos, addTodo, deleteTodo, updateTodo } from '../controllers/todoController';
+import { requireAuth } from '../middlewares/requireAuth';
 
 const router = express.Router();
+
+router.use(requireAuth);
 
 router.get('/', getTodos);
 
