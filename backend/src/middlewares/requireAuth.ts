@@ -41,4 +41,4 @@ const requireAuth = async (
   }
 };
 
-export { requireAuth };
+export { requireAuth, AuthRequest };

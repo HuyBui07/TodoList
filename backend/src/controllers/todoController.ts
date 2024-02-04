@@ -1,10 +1,16 @@
 import { Request, Response } from "express";
 import Todo from "../models/todoModel";
+import { AuthRequest } from "../middlewares/requireAuth";
 
 //get all todos
-const getTodos = async (req: Request, res: Response): Promise<void> => {
+const getTodos = async (req: AuthRequest, res: Response): Promise<void> => {
+  if (!req.user) {
+    res.status(401).json({ message: "Unauthorized request" });
+    return;
+  }
+  const _id = req.user._id;
   try {
-    const todos = await Todo.find();
+    const todos = await Todo.find({ _id });
     res.status(200).json(todos);
   } catch (err: any) {
     res.status(500).json({ message: err.message });
@@ -12,8 +18,13 @@ const getTodos = async (req: Request, res: Response): Promise<void> => {
 };
 
 //add todo
-const addTodo = async (req: Request, res: Response): Promise<void> => {
+const addTodo = async (req: AuthRequest, res: Response): Promise<void> => {
+  if (!req.user) {
+    res.status(401).json({ message: "Unauthorized request" });
+    return;
+  }
   const { content } = req.body;
+  const _id = req.user._id;
   let missing = false;
   if (!content) {
     missing = true;
@@ -26,6 +37,7 @@ const addTodo = async (req: Request, res: Response): Promise<void> => {
   try {
     const todo = new Todo({
       content,
+      _id,
     });
     const newTodo = await todo.save();
     res.status(200).json(newTodo);
@@ -58,11 +70,7 @@ const updateTodo = async (req: Request, res: Response): Promise<void> => {
   }
 
   try {
-    const todo = await Todo.findByIdAndUpdate(
-      _id,
-      { content },
-      { new: true }
-    );
+    const todo = await Todo.findByIdAndUpdate(_id, { content }, { new: true });
     res.status(200).json(todo);
   } catch (err: any) {
     res.status(400).json({ message: err.message });

@@ -20,13 +20,24 @@ function Home() {
   const dispatch = useDispatch();
 
   const open = useSelector((state: any) => state.editModal.open);
-  const todos: Todo[] = useSelector((state: any) => state.todo.todos) || [];
+  const todos: Todo[] = useSelector((state: any) => state.todo.todos);
   const user = useSelector((state: any) => state.user.user);
 
   const fetchTodos = async () => {
-    const res = await fetch(API_CONST + "/todos");
+    const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+    const token = storedUser.token;
+    const res = await fetch(API_CONST + "/todos", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    });
     const data = await res.json();
-    dispatch(setTodos(data));
+
+    if (res.ok) {
+      dispatch(setTodos(data));
+    }
   };
 
   useEffect(() => {
@@ -37,12 +48,12 @@ function Home() {
     <div>
       {open && <EditModal />}
       <NavBar />
-      <h1 className="text-4xl mt-8 mb-8 ml-4">Hello {user ? user.email : ""}!</h1>
+      <h1 className="text-4xl mt-8 mb-8 ml-4">
+        Hello {user ? user.email : ""}!
+      </h1>
       <div className="grid grid-cols-3 gap-8">
         <div className="col-span-2">
-          {todos.map((todo) => (
-            <TodoTile todo={todo} />
-          ))}
+          {todos && todos.map((todo) => <TodoTile todo={todo} />)}
         </div>
         <TodoForm className="col-span-1" />
       </div>

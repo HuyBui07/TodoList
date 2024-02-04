@@ -19,6 +19,10 @@ function TodoTile({ todo }: { todo: Todo }) {
     console.log(todo._id);
     const res = await fetch(API_CONST + "/todos/" + todo._id, {
       method: "DELETE",
+      headers: {
+        Authorization:
+          "Bearer " + JSON.parse(localStorage.getItem("user") || "{}").token,
+      },
     });
     const data = await res.json();
     dispatch(deleteTodo(data._id));
@@ -32,13 +36,12 @@ function TodoTile({ todo }: { todo: Todo }) {
     >
       <h2>{todo.content}</h2>
       <div className="flex items-center gap-10">
-        <button
-          className="w-20"
-          onClick={handleEdit}
-        >
+        <button className="w-20" onClick={handleEdit}>
           Edit
         </button>
-        <button className="w-20 bg-red-500" onClick={handleDelete}>Delete</button>
+        <button className="w-20 bg-red-500" onClick={handleDelete}>
+          Delete
+        </button>
       </div>
     </div>
   );
